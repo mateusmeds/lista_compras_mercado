@@ -22,7 +22,9 @@ class ProductEntity {
   }
 
   remove() {
-    _quantity--;
+    if (_quantity > 1) {
+      _quantity--;
+    }
   }
 
   add() {
