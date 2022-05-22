@@ -14,6 +14,13 @@ class _ProductListPageState extends State<ProductListPage> {
       appBar: AppBar(
         title: const Text('Lista de Compras'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.add),
+            splashRadius: 20,
+          )
+        ],
       ),
       body: LayoutBuilder(
         builder: (context, constraints) => Center(
