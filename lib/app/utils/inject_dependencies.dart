@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:lista_compras_mercado/app/domain/usecases/imp/delete_purchase_usecase_imp.dart';
 import 'package:lista_compras_mercado/app/domain/usecases/imp/get_all_purchases_usecase_imp.dart';
 import 'package:lista_compras_mercado/app/domain/usecases/imp/save_purchase_usecase_imp.dart';
 import 'package:lista_compras_mercado/app/infra/datasources/imp/purchase_datasource_imp.dart';
@@ -19,8 +20,11 @@ class InjectDependencies {
 
     if (!getIt.isRegistered<PurchaseListBloc>()) {
       getIt.registerFactory<PurchaseListBloc>(
-        () => PurchaseListBloc(GetAllPurchasesUseCaseImp(
-            PurchaseRepositoryImp(PurchaseDatasourceImp()))),
+        () => PurchaseListBloc(
+            GetAllPurchasesUseCaseImp(
+                PurchaseRepositoryImp(PurchaseDatasourceImp())),
+            DeletePurchaseUseCaseImp(
+                PurchaseRepositoryImp(PurchaseDatasourceImp()))),
       );
     }
   }
