@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:lista_compras_mercado/app/presentation/product_list/pages/form_product_page.dart';
 import 'package:lista_compras_mercado/app/presentation/product_list/pages/product_list_page.dart';
 import 'package:lista_compras_mercado/app/presentation/purchase_list.dart/pages/purchase_list_page.dart';
 import 'package:lista_compras_mercado/app/utils/inject_dependencies.dart';
@@ -18,11 +19,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
       home: const PurchaseListPage(),
+      routes: {
+        '/purchase_list_page': (context) => const PurchaseListPage(),
+        '/product_list_page': (context) => const ProductListPage(),
+      },
     );
   }
 }
