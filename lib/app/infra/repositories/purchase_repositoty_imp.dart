@@ -17,4 +17,9 @@ class PurchaseRepositoryImp implements PurchaseRepository {
   Future<Either<Exception, List<PurchaseEntity>>> getAll() async {
     return await _purchaseDatasource.getAll();
   }
+
+  @override
+  Future<Either<Exception, bool>> delete(int key) async {
+    return await _purchaseDatasource.delete(key);
+  }
 }
