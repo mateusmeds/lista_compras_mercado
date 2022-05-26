@@ -6,6 +6,8 @@ import 'package:lista_compras_mercado/app/presentation/product_list/pages/produc
 import 'package:lista_compras_mercado/app/presentation/purchase_list.dart/bloc/events/purchase_list_event.dart';
 import 'package:lista_compras_mercado/app/presentation/purchase_list.dart/bloc/purchase_list_bloc.dart';
 import 'package:lista_compras_mercado/app/presentation/purchase_list.dart/bloc/states/purchase_list_state.dart';
+import 'package:lista_compras_mercado/app/presentation/purchase_list.dart/widgets/purchase_card.dart';
+import 'package:lista_compras_mercado/app/utils/functions.dart';
 
 class PurchaseListPage extends StatefulWidget {
   const PurchaseListPage({Key? key}) : super(key: key);
@@ -43,68 +45,56 @@ class _PurchaseListPageState extends State<PurchaseListPage> {
                   Expanded(
                     child: BlocConsumer<PurchaseListBloc, PurchaseListState>(
                       bloc: _purchaseListBloc,
+                      buildWhen: (_, state) {
+                        return _buildBloc(state);
+                      },
                       builder: (context, state) {
                         if (state is GetAllPurchasesLoadingState) {
-                          return Center(
+                          return const Center(
                             child: CircularProgressIndicator(),
                           );
                         }
+
+                        if (state is GetAllPurchasesEmptyState) {
+                          return const Center(
+                            child: Text('Você ainda não realizou uma compra.'),
+                          );
+                        }
+
                         if (state is GetAllPurchasesSuccessState) {
-                          List<PurchaseEntity> purchaseList =
-                              state.purchaseList;
                           return ListView.builder(
-                            itemCount: purchaseList.length,
+                            itemCount: state.purchaseList.length,
                             itemBuilder: (context, index) {
-                              PurchaseEntity purchase = purchaseList[index];
-                              return Container(
-                                margin: const EdgeInsets.only(bottom: 15),
-                                child: Card(
-                                  child: ListTile(
-                                      contentPadding:
-                                          const EdgeInsets.symmetric(
-                                        vertical: 15,
-                                        horizontal: 10,
-                                      ),
-                                      title: Text(
-                                        'Descrição',
-                                        maxLines: 2,
-                                        style: const TextStyle(
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
-                                      ),
-                                      subtitle: Container(
-                                        margin: const EdgeInsets.only(top: 5),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text("${purchase.date}"),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            Text('R\$ ${purchase.totalValue}'),
-                                          ],
-                                        ),
-                                      ),
-                                      trailing: Icon(Icons.arrow_forward_ios)),
-                                ),
+                              PurchaseEntity purchase =
+                                  state.purchaseList[index];
+                              return PurchaseCard(
+                                purchaseEntity: purchase,
+                                onTap: () => _deletePurchase(purchase.key),
                               );
                             },
                           );
                         }
-                        return SizedBox.shrink();
+                        return const SizedBox.shrink();
                       },
-                      listener: (context, state) {},
+                      listener: (context, state) {
+                        if (state is DeletePurchaseSuccessState) {
+                          _purchaseListBloc.add(GetAllPurchasesEvent());
+                          showSuccessMessage(context,
+                              'Sucesso! A lista de compras foi removida.');
+                        }
+
+                        if (state is DeletePurchaseErrorState) {
+                          showErrorMessage(context,
+                              'Erro! Ocorreu um erro ao tentar remover a lista de compras. Por favor, tente novamente.');
+                        }
+                      },
                     ),
                   ),
                   Container(
                     margin: const EdgeInsets.only(bottom: 15),
                     width: constraints.maxWidth * 0.8,
                     child: ElevatedButton(
-                      onPressed: () => Navigator.push(context,
-                          MaterialPageRoute(builder: (BuildContext context) {
-                        return ProductListPage();
-                      })),
+                      onPressed: _navigateToProductListPage,
                       child: const Text('INICIAR COMPRA'),
                     ),
                   ),
@@ -115,5 +105,21 @@ class _PurchaseListPageState extends State<PurchaseListPage> {
         },
       ),
     );
+  }
+
+  bool _buildBloc(PurchaseListState state) {
+    return state is GetAllPurchasesLoadingState ||
+        state is GetAllPurchasesSuccessState ||
+        state is GetAllPurchasesEmptyState;
+  }
+
+  _navigateToProductListPage() {
+    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
+      return const ProductListPage();
+    }));
+  }
+
+  _deletePurchase(int key) {
+    _purchaseListBloc.add(DeletePurchaseEvent(key));
   }
 }

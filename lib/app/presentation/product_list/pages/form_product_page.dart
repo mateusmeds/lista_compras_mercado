@@ -23,71 +23,87 @@ class FormProductPageState extends State<FormProductPage> {
         title: const Text('Novo Item'),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                TextFormField(
-                  decoration: InputDecoration(
-                    hintText: 'Nome',
-                  ),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Nome vazio!';
-                    }
-                    if (value.length < 3) {
-                      return 'O nome deve ter pelo menos 3 caracteres';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    name = value!;
-                  },
-                ),
-                TextFormField(
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
-                  decoration: InputDecoration(hintText: 'Preço'),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Preço vazio!';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    price = double.parse(value!);
-                  },
-                ),
-                TextFormField(
-                  keyboardType: TextInputType.numberWithOptions(),
-                  decoration: InputDecoration(hintText: 'Quantidade'),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Quantidade vazia!';
-                    }
-                    return null;
-                  },
-                  onSaved: (value) {
-                    quantity = int.parse(value!);
-                  },
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      _formKey.currentState!.save();
-                      widget.productListCubit.add(ProductEntity(
-                          name: name, price: price, quantity: quantity));
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text('Produto adicionado com sucesso.'),
-                        backgroundColor: Colors.green,
-                      ));
-                      Navigator.of(context).pop();
-                    }
-                  },
-                  child: Text('SALVAR'),
-                ),
-              ],
-            )),
+      body: LayoutBuilder(
+        builder: (context, constraints) => SingleChildScrollView(
+          child: Center(
+            child: SizedBox(
+              width: constraints.maxWidth * 0.8,
+              child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      TextFormField(
+                        decoration: const InputDecoration(
+                          hintText: 'Nome',
+                        ),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Nome vazio!';
+                          }
+                          if (value.length < 3) {
+                            return 'O nome deve ter pelo menos 3 caracteres';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          name = value!;
+                        },
+                      ),
+                      TextFormField(
+                        keyboardType: const TextInputType.numberWithOptions(
+                            decimal: true),
+                        decoration: const InputDecoration(hintText: 'Preço'),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Preço vazio!';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          price = double.parse(value!);
+                        },
+                      ),
+                      TextFormField(
+                        keyboardType: const TextInputType.numberWithOptions(),
+                        decoration:
+                            const InputDecoration(hintText: 'Quantidade'),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Quantidade vazia!';
+                          }
+                          return null;
+                        },
+                        onSaved: (value) {
+                          quantity = int.parse(value!);
+                        },
+                      ),
+                      SizedBox(
+                        width: constraints.maxWidth * 0.8,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              _formKey.currentState!.save();
+                              widget.productListCubit.add(ProductEntity(
+                                  name: name,
+                                  price: price,
+                                  quantity: quantity));
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(const SnackBar(
+                                content:
+                                    Text('Sucesso! O Produto foi adicionado.'),
+                                backgroundColor: Colors.green,
+                              ));
+                              Navigator.of(context).pop();
+                            }
+                          },
+                          child: const Text('SALVAR'),
+                        ),
+                      ),
+                    ],
+                  )),
+            ),
+          ),
+        ),
       ),
     );
   }

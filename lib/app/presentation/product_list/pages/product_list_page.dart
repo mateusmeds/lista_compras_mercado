@@ -9,6 +9,7 @@ import 'package:lista_compras_mercado/app/presentation/product_list/bloc/product
 import 'package:lista_compras_mercado/app/presentation/product_list/bloc/states/finalize_purchase_state.dart';
 import 'package:lista_compras_mercado/app/presentation/product_list/pages/form_product_page.dart';
 import 'package:lista_compras_mercado/app/presentation/purchase_list.dart/pages/purchase_list_page.dart';
+import 'package:lista_compras_mercado/app/utils/functions.dart';
 
 class ProductListPage extends StatefulWidget {
   const ProductListPage({Key? key}) : super(key: key);
@@ -21,6 +22,7 @@ class _ProductListPageState extends State<ProductListPage> {
   late List<ProductEntity> _productEntityList;
   late ProductListCubit _productListCubit;
   late FinalizePurchaseBloc _finalizePurchaseBloc;
+
   @override
   void initState() {
     _productEntityList = [];
@@ -160,30 +162,34 @@ class _ProductListPageState extends State<ProductListPage> {
                         ),
                       );
                     }),
-                BlocConsumer<FinalizePurchaseBloc, FinalizePurchaseState>(
-                    bloc: _finalizePurchaseBloc,
+                BlocBuilder<ProductListCubit, List<ProductEntity>>(
+                    bloc: _productListCubit,
                     builder: (context, state) {
                       return Container(
                         margin: const EdgeInsets.only(bottom: 15),
                         width: constraints.maxWidth * 0.8,
                         child: ElevatedButton(
-                          onPressed: _savePurchase,
+                          onPressed: _productListCubit.totalValue > 0
+                              ? _savePurchase
+                              : null,
                           child: const Text('FINALIZAR'),
                         ),
                       );
+                    }),
+                BlocConsumer<FinalizePurchaseBloc, FinalizePurchaseState>(
+                    bloc: _finalizePurchaseBloc,
+                    builder: (context, state) {
+                      return const SizedBox.shrink();
                     },
                     listener: (context, state) {
                       if (state is SavePurchaseErrorState) {
-                        print('Deu erro');
-                        _showError();
+                        showErrorMessage(context,
+                            'Erro! Ocorreu um erro ao tentar salvar a lista de compras. Por favor, tente novamente.');
                       }
                       if (state is SavePurchaseSuccessState) {
-                        print('Deu certo');
-                        _showSuccess();
-                        Navigator.push(context,
-                            MaterialPageRoute(builder: (BuildContext context) {
-                          return PurchaseListPage();
-                        }));
+                        showSuccessMessage(context,
+                            'Sucesso! A sua lista de compras foi salva.');
+                        _navigateToPurchaseListPage();
                       }
                     }),
               ],
@@ -199,18 +205,11 @@ class _ProductListPageState extends State<ProductListPage> {
         SavePurchaseEvent(PurchaseEntity(products: _productListCubit.state)));
   }
 
-  _showError() {
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-      content: Text(
-          'Erro! Ocorreu um erro ao tentar salvar a lista de compras. Por favor, tente novamente.'),
-      backgroundColor: Colors.red,
-    ));
-  }
-
-  _showSuccess() {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text('Sucesso! A sua lista de compras foi salva.'),
-      backgroundColor: Colors.green,
-    ));
+  _navigateToPurchaseListPage() {
+    Navigator.of(context).pushAndRemoveUntil<void>(
+      MaterialPageRoute<void>(
+          builder: (BuildContext context) => const PurchaseListPage()),
+      ModalRoute.withName('/purchase_list_page'),
+    );
   }
 }
