@@ -34,7 +34,19 @@ class PurchaseDatasourceImp implements PurchaseDatasource {
   Future<Either<Exception, List<PurchaseEntity>>> getAll() async {
     try {
       await _openBox();
-      return Right(context.values.toList());
+      var result = context.values;
+      return Right(result.toList());
+    } catch (e) {
+      return Left(Exception(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Exception, bool>> delete(int key) async {
+    try {
+      await _openBox();
+      await context.delete(key);
+      return const Right(true);
     } catch (e) {
       return Left(Exception(e.toString()));
     }
