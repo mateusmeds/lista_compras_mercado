@@ -13,3 +13,11 @@ class GetAllPurchasesSuccessState extends PurchaseListState {
 }
 
 class GetAllPurchasesErrorState extends PurchaseListState {}
+
+class GetAllPurchasesEmptyState extends PurchaseListState {}
+
+class DeletePurchaseLoadingState extends PurchaseListState {}
+
+class DeletePurchaseSuccessState extends PurchaseListState {}
+
+class DeletePurchaseErrorState extends PurchaseListState {}
