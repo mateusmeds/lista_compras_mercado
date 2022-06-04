@@ -24,4 +24,9 @@ class ProductListCubit extends Cubit<List<ProductEntity>> {
     state[index].remove();
     emit(List.of(state));
   }
+
+  void removeProduct(int index) {
+    state.removeAt(index);
+    emit(List.of(state));
+  }
 }

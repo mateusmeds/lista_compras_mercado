@@ -105,14 +105,27 @@ class _ProductListPageState extends State<ProductListPage> {
                                   trailing: FittedBox(
                                     child: Column(
                                       children: [
-                                        InkWell(
-                                          child: const Icon(
-                                            Icons.remove_circle_outline,
+                                        Visibility(
+                                          visible: productEntity.quantity == 1,
+                                          child: InkWell(
+                                            child: const Icon(
+                                              Icons.delete,
+                                              color: Colors.red,
+                                            ),
+                                            onTap: () {
+                                              _productListCubit
+                                                  .removeProduct(index);
+                                            },
                                           ),
-                                          onTap: () {
-                                            _productListCubit
-                                                .decrementProduct(index);
-                                          },
+                                          replacement: InkWell(
+                                            child: const Icon(
+                                              Icons.remove_circle_outline,
+                                            ),
+                                            onTap: () {
+                                              _productListCubit
+                                                  .decrementProduct(index);
+                                            },
+                                          ),
                                         ),
                                         Container(
                                             margin: const EdgeInsets.symmetric(
