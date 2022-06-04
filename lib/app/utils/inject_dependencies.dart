@@ -5,7 +5,7 @@ import 'package:lista_compras_mercado/app/domain/usecases/imp/save_purchase_usec
 import 'package:lista_compras_mercado/app/infra/datasources/imp/purchase_datasource_imp.dart';
 import 'package:lista_compras_mercado/app/infra/repositories/purchase_repositoty_imp.dart';
 import 'package:lista_compras_mercado/app/presentation/product_list/bloc/finalize_purchase_bloc.dart';
-import 'package:lista_compras_mercado/app/presentation/purchase_list.dart/bloc/purchase_list_bloc.dart';
+import 'package:lista_compras_mercado/app/presentation/purchase_list/bloc/purchase_list_bloc.dart';
 
 class InjectDependencies {
   static load() {

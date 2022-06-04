@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:lista_compras_mercado/app/presentation/product_list/pages/form_product_page.dart';
 import 'package:lista_compras_mercado/app/presentation/product_list/pages/product_list_page.dart';
-import 'package:lista_compras_mercado/app/presentation/purchase_list.dart/pages/purchase_list_page.dart';
+import 'package:lista_compras_mercado/app/presentation/purchase_list/pages/purchase_list_page.dart';
 import 'package:lista_compras_mercado/app/utils/inject_dependencies.dart';
 
 void main() async {
