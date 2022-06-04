@@ -15,9 +15,6 @@ class FinalizePurchaseBloc
 
   _savePurchase(SavePurchaseEvent event, Emitter emit) async {
     emit(SavePurchaseLoadingState());
-
-    // await Future.delayed(const Duration(seconds: 2));
-
     var result = await _savePurchaseUseCase.call(event.purchaseEntity);
     result.fold((l) => emit(SavePurchaseErrorState()),
         (r) => emit(SavePurchaseSuccessState()));

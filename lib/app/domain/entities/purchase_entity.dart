@@ -31,12 +31,4 @@ class PurchaseEntity extends HiveObject {
     return products.fold<int>(
         0, (previousValue, element) => previousValue + element.quantity);
   }
-
-  addProduct(ProductEntity productEntity) {
-    products.add(productEntity);
-  }
-
-  removeProduct(ProductEntity productEntity) {
-    products.remove(productEntity);
-  }
 }

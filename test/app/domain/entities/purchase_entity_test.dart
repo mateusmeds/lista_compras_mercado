@@ -27,35 +27,4 @@ void main() {
     double totalValue = _purchaseEntity.totalValue;
     expect(totalValue, equals(40.0));
   });
-
-  test('Deve adicionar 1 produto e removê-lo', () {
-    _purchaseEntity.addProduct(ProductEntity(name: 'Café', price: 10.0));
-    _purchaseEntity.removeProduct(_purchaseEntity.products.last);
-
-    int quantityProducts = _purchaseEntity.quantityProducts;
-    int quantityTotalProducts = _purchaseEntity.quantityTotalProducts;
-    double totalValue = _purchaseEntity.totalValue;
-    bool contains = _purchaseEntity.products
-        .any((product) => product.name.contains('Café'));
-
-    expect(contains, isFalse);
-    expect(quantityProducts, equals(3));
-    expect(quantityTotalProducts, equals(10));
-    expect(totalValue, equals(40.0));
-  });
-
-  test('Deve adicionar 2 novos produtos', () {
-    _purchaseEntity.addProduct(
-        ProductEntity(name: 'Molho de tomate', price: 1.5, quantity: 10));
-    _purchaseEntity.addProduct(
-        ProductEntity(name: 'Barra de chocolate', price: 5.5, quantity: 5));
-
-    int quantityProducts = _purchaseEntity.quantityProducts;
-    int quantityTotalProducts = _purchaseEntity.quantityTotalProducts;
-    double totalValue = _purchaseEntity.totalValue;
-
-    expect(quantityProducts, equals(5));
-    expect(quantityTotalProducts, equals(25));
-    expect(totalValue, equals(82.5));
-  });
 }

@@ -18,12 +18,6 @@ class PurchaseDatasourceImp implements PurchaseDatasource {
     try {
       await _openBox();
       await context.add(purchaseEntity);
-      var result = await getAll();
-      result.fold(
-          (l) => print('Erro ao tentar listar'),
-          (r) => r.forEach((element) {
-                print(element.totalValue);
-              }));
       return const Right(true);
     } catch (e) {
       return Left(Exception(e.toString()));
