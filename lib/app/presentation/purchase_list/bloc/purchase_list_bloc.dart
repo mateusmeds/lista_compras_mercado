@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lista_compras_mercado/app/domain/usecases/delete_purchase_usecase.dart';
 import 'package:lista_compras_mercado/app/domain/usecases/get_all_purchases_usecase.dart';
-import 'package:lista_compras_mercado/app/presentation/purchase_list.dart/bloc/events/purchase_list_event.dart';
-import 'package:lista_compras_mercado/app/presentation/purchase_list.dart/bloc/states/purchase_list_state.dart';
+import 'package:lista_compras_mercado/app/presentation/purchase_list/bloc/events/purchase_list_event.dart';
+import 'package:lista_compras_mercado/app/presentation/purchase_list/bloc/states/purchase_list_state.dart';
 
 class PurchaseListBloc extends Bloc<PurchaseListEvent, PurchaseListState> {
   final GetAllPurchasesUseCase _getAllPurchasesUseCase;
