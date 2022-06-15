@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lista_compras_mercado/app/domain/entities/purchase_entity.dart';
+import 'package:lista_compras_mercado/app/utils/functions.dart';
 
 class PurchaseCard extends StatelessWidget {
   const PurchaseCard({
@@ -34,11 +35,11 @@ class PurchaseCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("${purchaseEntity.date}"),
+                Text(dateFormatBR(purchaseEntity.date)),
                 const SizedBox(
                   height: 10,
                 ),
-                Text('R\$ ${purchaseEntity.totalValue}'),
+                Text(currencyFormatBRL(purchaseEntity.totalValue)),
               ],
             ),
           ),

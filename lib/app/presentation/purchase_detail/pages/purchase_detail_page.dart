@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lista_compras_mercado/app/domain/entities/product_entity.dart';
 import 'package:lista_compras_mercado/app/domain/entities/purchase_entity.dart';
+import 'package:lista_compras_mercado/app/utils/functions.dart';
 
 class PurchaseDetailPage extends StatefulWidget {
   PurchaseDetailPage({required this.purchaseEntity, Key? key})
@@ -32,7 +33,7 @@ class _PurchaseDetailPageState extends State<PurchaseDetailPage> {
                     children: [
                       Flexible(
                         child: Text(
-                          "Compra realizada ${widget.purchaseEntity.date}",
+                          "Compra concluída ${dateTimeFormatBR(widget.purchaseEntity.date)}",
                         ),
                       ),
                     ],
@@ -66,12 +67,12 @@ class _PurchaseDetailPageState extends State<PurchaseDetailPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                      'Preço: R\$ ${productEntity.price.toStringAsFixed(2)}'),
+                                      'Preço: ${currencyFormatBRL(productEntity.price)}'),
                                   const SizedBox(
                                     height: 5,
                                   ),
                                   Text(
-                                      'Total: R\$ ${productEntity.totalPrice.toStringAsFixed(2)}'),
+                                      'Total: ${currencyFormatBRL(productEntity.totalPrice)}'),
                                 ],
                               ),
                             ),
@@ -105,8 +106,8 @@ class _PurchaseDetailPageState extends State<PurchaseDetailPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text('TOTAL'),
-                        Text(
-                            'R\$ ${widget.purchaseEntity.totalValue.toStringAsFixed(2)}'),
+                        Text(currencyFormatBRL(
+                            widget.purchaseEntity.totalValue)),
                       ],
                     ),
                   ),

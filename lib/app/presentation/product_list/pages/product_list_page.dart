@@ -170,7 +170,7 @@ class _ProductListPageState extends State<ProductListPage> {
                           children: [
                             const Text('TOTAL'),
                             Text(
-                                'R\$ ${_productListCubit.totalValue.toStringAsFixed(2)}'),
+                                '${currencyFormatBRL(_productListCubit.totalValue)}'),
                           ],
                         ),
                       );
