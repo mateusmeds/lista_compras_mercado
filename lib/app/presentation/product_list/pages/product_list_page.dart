@@ -112,10 +112,8 @@ class _ProductListPageState extends State<ProductListPage> {
                                               Icons.delete,
                                               color: Colors.red,
                                             ),
-                                            onTap: () {
-                                              _productListCubit
-                                                  .removeProduct(index);
-                                            },
+                                            onTap: () =>
+                                                _dialogRemoveProduct(index),
                                           ),
                                           replacement: InkWell(
                                             child: const Icon(
@@ -224,5 +222,33 @@ class _ProductListPageState extends State<ProductListPage> {
           builder: (BuildContext context) => const PurchaseListPage()),
       ModalRoute.withName('/purchase_list_page'),
     );
+  }
+
+  _dialogRemoveProduct(int index) {
+    showDialogAction(
+        context: context,
+        title: const Text("Remover produto?"),
+        content: const Text("Tem certeza que deseja remover o produto?"),
+        buttonActions: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, 'Cancel'),
+                child: const Text('CANCELAR'),
+              ),
+              TextButton(
+                onPressed: () {
+                  _productListCubit.removeProduct(index);
+                  Navigator.pop(context, 'OK');
+                },
+                child: const Text(
+                  'REMOVER',
+                  style: TextStyle(color: Colors.red),
+                ),
+              ),
+            ],
+          )
+        ]);
   }
 }
