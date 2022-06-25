@@ -33,3 +33,18 @@ String timeFormatBR(DateTime date) {
 String dateTimeFormatBR(DateTime date) {
   return '${dateFormatBR(date)} às ${timeFormatBR(date)}';
 }
+
+showDialogAction(
+    {required BuildContext context,
+    required List<Widget> buttonActions,
+    required Widget title,
+    required Widget content}) {
+  showDialog<String>(
+    context: context,
+    builder: (BuildContext context) => AlertDialog(
+      title: title,
+      content: content,
+      actions: buttonActions,
+    ),
+  );
+}
