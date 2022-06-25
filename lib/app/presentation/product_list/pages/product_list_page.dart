@@ -181,7 +181,7 @@ class _ProductListPageState extends State<ProductListPage> {
                         width: constraints.maxWidth * 0.8,
                         child: ElevatedButton(
                           onPressed: _productListCubit.totalValue > 0
-                              ? _savePurchase
+                              ? _dialogFinalizePurchase
                               : null,
                           child: const Text('FINALIZAR'),
                         ),
@@ -245,6 +245,34 @@ class _ProductListPageState extends State<ProductListPage> {
                 child: const Text(
                   'REMOVER',
                   style: TextStyle(color: Colors.red),
+                ),
+              ),
+            ],
+          )
+        ]);
+  }
+
+  _dialogFinalizePurchase() {
+    showDialogAction(
+        context: context,
+        title: const Text("Finalizar compra?"),
+        content: const Text("Tem certeza que deseja finalizar a compra?"),
+        buttonActions: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, 'Cancel'),
+                child: const Text('CANCELAR'),
+              ),
+              TextButton(
+                onPressed: () {
+                  _savePurchase();
+                  Navigator.pop(context, 'OK');
+                },
+                child: const Text(
+                  'FINALIZAR',
+                  style: TextStyle(color: Colors.green),
                 ),
               ),
             ],
